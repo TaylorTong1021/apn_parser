@@ -14,8 +14,8 @@
  */
 
 #include "xmlAssistant/xmlAssistantImpl.h"
-#include "log/log.h"
-#include "memory/memory.h"
+#include "log.h"
+#include "memory.h"
 
 #include <libxml/encoding.h>
 #include <libxml/xmlwriter.h>
@@ -27,7 +27,7 @@ xmlNodePtr mCurNode;
 
 static int xml_parser_per_tag(xmlNodePtr node);
 static int xml_parser_per_attribute(xmlNodePtr node);
-static void clear_xml_data(xml_data_type* xml_data);
+static void clear_xml_data(xml_data_node* xml_data);
 
 /**
  * read xml file and get node ptr from xml.
@@ -84,7 +84,7 @@ int xml_parse(int (*callfunc)(xml_data_node*), unsigned int parse_type, unsigned
         } else if(parse_type == ATTRIBUTE_TYPE) {
             result = xml_parser_per_attribute(curNode);
         } else {
-            LOG("parser type is illegue!\n");
+            LOG("parser type is illegue!");
             return RETURN_ERROR;
         }
         if(RETURN_ERROR != result) {
@@ -125,10 +125,10 @@ static xml_data_node* create_and_set_data_to_node(char* key, char* value) {
     xml_data_node * p_xml_data_node = (xml_data_node *)_alloc_memory(sizeof(xml_data_node));
     //key
     p_xml_data_node->key = (char *)_alloc_memory(sizeof(char) * (strlen((char *)key) + 1));
-    strcpy(p_xml_data_node->key, (char *)attribute->name);
+    strcpy(p_xml_data_node->key, key);
     //value
     p_xml_data_node->value = (char *)_alloc_memory(sizeof(char) * (strlen((char*)value) + 1));
-    strcpy(p_xml_data_node->value, (char*)value);
+    strcpy(p_xml_data_node->value, value);
     return p_xml_data_node;
 }
 
@@ -151,7 +151,7 @@ static void* add_node_to_list(xml_data_node* p_xml_data_node) {
 static int xml_parser_per_tag(xmlNodePtr node)
 {
 	xmlNodePtr curNode = node->xmlChildrenNode;
-    xml_data_type * p_xml_data_node = NULL;
+    xml_data_node * p_xml_data_node = NULL;
 
 	while( curNode ){
 		if( curNode->name ){
@@ -162,7 +162,7 @@ static int xml_parser_per_tag(xmlNodePtr node)
                 continue;
             }
             //save xml data to linknode.
-            p_xml_data_node = create_and_set_data_to_node((char *)attribute->name, (char*)value);
+            p_xml_data_node = create_and_set_data_to_node((char *)curNode->name, (char*)value);
             
             //add node to list
             add_node_to_list(p_xml_data_node);
@@ -191,7 +191,7 @@ static int xml_parser_per_attribute(xmlNodePtr node)
             attribute = attribute->next;
             continue;
         }
-        //LOG("xml_parser_per_attribute name = %s, value=%s.\n",attribute->name, value);
+        //LOG("xml_parser_per_attribute name = %s, value=%s.",attribute->name, value);
         //save xml data to linknode.
         p_xml_data_node = create_and_set_data_to_node((char *)attribute->name, (char*)value);
 

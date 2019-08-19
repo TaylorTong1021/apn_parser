@@ -2,6 +2,7 @@
 #include "memory.h"
 
 #include <assert.h>
+#include <stdlib.h>
 #define NDEBUG
 
 void* _alloc_memory(unsigned int size) {

@@ -16,6 +16,6 @@ typedef struct apn_data_list {
 } apn_data_list;
 
 int parseApnConfigXml(char* file_name, char* numberic );
-char* getApnConfigUri(char* key, char* numberic);
+char* getApnConfigUri(char* key, char* numberic, char* apn_type);
 apn_data_list* getApnConfigList(char* numberic);
 #endif

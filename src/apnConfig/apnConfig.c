@@ -22,88 +22,26 @@
 
 #include "apnConfig.h"
 #include "memory.h"
-#include "log/log.h"
+#include "log.h"
 #include "xmlAssistant/xmlAssistantAdapter.h"
 
 #include <string.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 apn_data_list* g_apn_data_list_ptr = NULL;
 
-static void setPlmn(char * numberic);
-
-char* getApnConfigUri(char* key, char* numberic)
-{
-    xml_data_list* p_xml_data_list = NULL;
-    xml_data_list* p_tmp_xml_data_list = NULL;
-    xml_data_type* p_tmp_data = NULL;
-    xml_search_info search_info;
-    bool flag_mcc_match = false;
-    bool flag_mnc_match = false;
-    bool flag_ims_match = false;
-
-    search_info.key = "mcc";
-    search_info.value = s_mcc;
-    search_info.key2 = "mnc";
-    search_info.value2 = s_mnc;
-    setPlmn(numberic);
-    p_xml_data_list = getConfigList(&search_info);
-    p_tmp_xml_data_list = p_xml_data_list;
-    while(p_tmp_xml_data_list != NULL) {
-        p_tmp_data = p_tmp_xml_data_list->xml_data;
-        while(p_tmp_data != NULL) {
-            if( (strcmp(p_tmp_data->value, search_info.value) == 0)
-              && (strcmp(p_tmp_data->key, search_info.key) == 0) ) {
-                flag_mcc_match = true;
-            }
-            if(flag_mcc_match && (strcmp(p_tmp_data->value, search_info.value2) == 0)
-              && (strcmp(p_tmp_data->key, search_info.key2) == 0)){
-                flag_mnc_match = true;
-            }
-            if(flag_mcc_match && flag_mnc_match
-              && ((strcmp(p_tmp_data->value, "ims") == 0)
-              && (strcmp(p_tmp_data->key, "apn") == 0) ) ) {
-                /*if(strcmp(p_tmp_data->key, key) == 0) {
-                    return p_tmp_data->value;
-                }*/
-                flag_ims_match = true;
-            }
-            if(flag_mcc_match && flag_mnc_match && flag_ims_match
-              && (strcmp(p_tmp_data->key, key) == 0)) {
-                return p_tmp_data->value;
-            }
-            p_tmp_data = p_tmp_data->next;
-        }
-        flag_mcc_match = false;
-        flag_mnc_match = false;
-        flag_ims_match = false;
-        p_tmp_xml_data_list = p_tmp_xml_data_list->next;
-    }
-
-    return "";
-}
-
-apn_data_list* getApnConfigList(char* numberic) {
-    apn_data_list* p_apn_data_list = NULL;
-    xml_data_list* p_xml_data_list = NULL;
-    xml_search_info search_info;
-    search_info.key = "numberic";
-    search_info.value = numberic;
-    setPlmn(numberic);
-    p_xml_data_list = getConfigList(&search_info);
-    p_apn_data_list = (apn_data_list*) p_xml_data_list;
-    
-    return p_apn_data_list;
-}
+static void delete_apn_data_list();
+static int parser_and_add_xml_node_to_list(xml_data_node* xml_data);
 
 int parseApnConfigXml(char* file_name, char* numberic ) {
-    LOG("parseApnConfigXml...\n");
+    LOG("parseApnConfigXml...");
     int result = RETURN_ERROR;
 
     if(NULL == g_apn_data_list_ptr) {
         g_apn_data_list_ptr = (apn_data_list*)_alloc_memory(sizeof(apn_data_list));
     } else {
-        if(g_apn_data_list_ptr != NULL) && (strcmp(g_apn_data_list_ptr->numberic, numberic) ==0) {
+        if((g_apn_data_list_ptr != NULL) && (strcmp(g_apn_data_list_ptr->numberic, numberic) ==0)) {
             return RETURN_OK;
         } else {
             delete_apn_data_list();
@@ -111,8 +49,50 @@ int parseApnConfigXml(char* file_name, char* numberic ) {
         }
     }
 
-    result = parseConfigXml(file_name, numberic, ATTRIBUTE_TYPE);
+    //save numberic
+    g_apn_data_list_ptr->numberic = (char*)_alloc_memory(sizeof(numberic));
+    strcpy(g_apn_data_list_ptr->numberic, numberic);
+
+    //parser apn xml file
+    result = parseConfigXml(file_name, numberic, ATTRIBUTE_TYPE, GET_MULTI_NODE, parser_and_add_xml_node_to_list);
     return result;
+}
+
+char* getApnConfigUri(char* key, char* numberic, char* apn_type)
+{
+    apn_data_list* tmp_apn_data_list_ptr = g_apn_data_list_ptr;
+    apn_data_type* tmp_apn_data_node_ptr;
+    char* result = NULL;
+    bool is_target_node = false;
+
+    while(tmp_apn_data_list_ptr != NULL) {
+        tmp_apn_data_node_ptr = tmp_apn_data_list_ptr->xml_data;
+        while(tmp_apn_data_node_ptr != NULL) {
+            if((strcmp(tmp_apn_data_node_ptr->key, "type") == 0)
+              && (strcmp(tmp_apn_data_node_ptr->value, apn_type) == 0)) {
+                is_target_node = true;
+            }
+            if(strcmp(tmp_apn_data_node_ptr->key, key) == 0) {
+                result = tmp_apn_data_node_ptr->value;
+            }
+            tmp_apn_data_node_ptr = tmp_apn_data_node_ptr->next;
+        }
+        if(is_target_node && (result != NULL)) {
+            return result;
+        } else {
+            result = NULL;
+            is_target_node = false;
+        }
+        tmp_apn_data_list_ptr = tmp_apn_data_list_ptr->next;
+    }
+
+    return "";
+}
+
+apn_data_list* getApnConfigList(char* numberic) {
+    apn_data_list* p_apn_data_list;
+    memcpy(p_apn_data_list, g_apn_data_list_ptr, sizeof(apn_data_list));
+    return p_apn_data_list;
 }
 
 static void delete_apn_data_list() {
@@ -127,3 +107,11 @@ static void delete_apn_data_list() {
     }
     free(p_tmp_apn_data_list);
 }
+
+static int parser_and_add_xml_node_to_list(xml_data_node* xml_data) {
+    int result = RETURN_ERROR;
+    //TODO
+    LOG("parser_and_add_xml_node_to_list...");
+    return result;
+}
+

@@ -1,28 +1,30 @@
 CFLAGS = -L/usr/local/lib -fPIC
-INCLUDE_DIRS = -I /usr/local/include/libxml2 -I ./inc
-TARGET = libvolte_config.so
+INCLUDE_DIRS = -I /usr/local/include/libxml2 -I ./include -I ./utils/memory/include -I ./utils/log
+TARGET = apn_parser
 LIBS = -lxml2
 CC = gcc
 
-OBJS = volteConfig.o \
-        apnConfig.o \
+OBJS =  apnConfig.o \
         xmlAssistantAdpter.o \
-        xmlAssistantImpl.o
+        xmlAssistantImpl.o \
+	memory.o \
+	main.o
 
-SRCS = src/volteConfig/volteConfig.c \
-        src/apnConfig/apnConfig.c \
+SRCS =  src/apnConfig/apnConfig.c \
         src/xmlAssistant/xmlAssistantAdpter.c \
-        src/xmlAssistant/xmlAssistantImpl.c
+        src/xmlAssistant/xmlAssistantImpl.c \
+	utils/memory/src/memory.c \
+	main.c
 
 all:$(OBJS)
-	$(CC) -shared $(CFLAGS) $(LIBS) -o $(TARGET) $(OBJS)
+	$(CC) $(CFLAGS) $(LIBS) -o $(TARGET) $(OBJS)
 
 $(OBJS):$(SRCS)
 	$(CC) $(CFLAGS) $(LIBS) $(INCLUDE_DIRS) -c $^
 
 install:
-	sudo cp ./inc/volteConfig.h /usr/local/include
-	sudo cp ./inc/apnConfig.h /usr/local/include
+	sudo cp ./include/volteConfig.h /usr/local/include
+	sudo cp ./include/apnConfig.h /usr/local/include
 	sudo cp $(TARGET) /usr/lib
 
 clean:

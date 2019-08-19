@@ -3,7 +3,6 @@
 
 #include "xmlAssistant/xmlAssistantImpl.h"
 
-int parseConfigXml(char* fileName, xml_search_info* search_info_ptr, unsigned int parse_type);
-char* getConfigUri(char* field, char* value);
-xml_data_list* getConfigList(xml_search_info* search_info_ptr);
+int parseConfigXml(char* fileName, char* numberic, unsigned int parse_type, 
+                    unsigned int get_node_type, int (*callfunc)(xml_data_node*));
 #endif
