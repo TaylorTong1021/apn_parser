@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SprdXml version="1.0" xml:lang="en">
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>00101</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>46000</numeric>
+    <xcap>xcap.ims.mnc000.mcc460.pub.3gppnetwork.org</xcap>
+    <apn>ims</apn>
+    <protocol>IPV4V6</protocol>
+    <roaming_protocol>IPV4V6</roaming_protocol>
+  </allowPlmn>
+
+  <allowPlmn>
+    <numeric>46001</numeric>
+    <apn>ims</apn>
+    <protocol>IPV4V6</protocol>
+    <roaming_protocol>IPV4V6</roaming_protocol>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>46002</numeric>
+    <xcap>xcap.ims.mnc000.mcc460.pub.3gppnetwork.org</xcap>
+    <apn>ims</apn>
+    <protocol>IPV4V6</protocol>
+    <roaming_protocol>IPV4V6</roaming_protocol>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>46003</numeric>
+    <xcap>xcap.ims.mnc000.mcc460.pub.3gppnetwork.org</xcap>
+    <apn>IMS</apn>
+    <protocol>IPV4V6</protocol>
+    <roaming_protocol>IPV4V6</roaming_protocol>
+    <editable>0</editable>
+    <user_editable>0</user_editable>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>46004</numeric>
+    <xcap>xcap.ims.mnc000.mcc460.pub.3gppnetwork.org</xcap>
+    <apn>ims</apn>
+    <protocol>IPV4V6</protocol>
+    <roaming_protocol>IPV4V6</roaming_protocol>
+  </allowPlmn>
+
+  <allowPlmn>
+    <numeric>46006</numeric>
+    <apn>ims</apn>
+    <protocol>IPV4V6</protocol>
+    <roaming_protocol>IPV4V6</roaming_protocol>
+    <editable>0</editable>
+    <user_editable>0</user_editable>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>46007</numeric>
+    <xcap>xcap.ims.mnc000.mcc460.pub.3gppnetwork.org</xcap>
+    <apn>ims</apn>
+    <protocol>IPV4V6</protocol>
+    <roaming_protocol>IPV4V6</roaming_protocol>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>46008</numeric>
+    <xcap>xcap.ims.mnc000.mcc460.pub.3gppnetwork.org</xcap>
+  </allowPlmn>
+
+  <allowPlmn>
+    <numeric>46009</numeric>
+    <apn>ims</apn>
+    <protocol>IPV4V6</protocol>
+    <roaming_protocol>IPV4V6</roaming_protocol>
+    <editable>0</editable>
+    <user_editable>0</user_editable>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>46011</numeric>
+    <xcap>xcap.ims.mnc000.mcc460.pub.3gppnetwork.org</xcap>
+    <apn>IMS</apn>
+    <protocol>IPV4V6</protocol>
+    <roaming_protocol>IPV4V6</roaming_protocol>
+    <editable>0</editable>
+    <user_editable>0</user_editable>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>46012</numeric>
+    <xcap>xcap.ims.mnc000.mcc460.pub.3gppnetwork.org</xcap>
+    <apn>IMS</apn>
+    <protocol>IPV4V6</protocol>
+    <roaming_protocol>IPV4V6</roaming_protocol>
+    <editable>0</editable>
+    <user_editable>0</user_editable>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405840</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405854</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405855</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405856</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405857</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405858</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405859</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405860</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405861</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405862</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405863</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405864</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405865</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405866</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405867</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405868</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405869</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405870</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405871</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405872</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405873</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>405874</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <confuri>sip:1234;phone-context=ims.mnc011.mcc456.3gppnetwork.org@ims.mnc011.mcc456.3gppnetwork.org;user=phone</confuri>
+    <enable>true</enable>
+    <numeric>45611</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>52005</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>52018</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>45412</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>45400</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>45419</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <confuri>sip:19099@ims.mnc003.mcc454.3gppnetwork.org</confuri>
+    <enable>true</enable>
+    <numeric>45403</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <bsf>bsf.ims.mnc009.mcc510.pub.3gppnetwork.org:7080</bsf>
+    <enable>true</enable>
+    <numeric>51009</numeric>
+    <xcap>nafxjktm001.ims.mnc009.mcc510.pub.3gppnetwork.org:7077</xcap>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>51028</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <cameraresolution>3</cameraresolution>
+    <numeric>44010</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <confuri>sip:SIP%3A%20mmtel@conf-factory.ics.mnc004.mcc520.3gppnetwork.org</confuri>
+    <enable>true</enable>
+    <numeric>52004</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <confuri>sip:conf@ims.mnc003.mcc520.3gppnetwork.org</confuri>
+    <enable>true</enable>
+    <numeric>52003</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <confuri>sip:SIP%3A%20mmtel@conf-factory.ics.mnc004.mcc520.3gppnetwork.org</confuri>
+    <enable>true</enable>
+    <numeric>52000</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>26202</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>26204</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>26209</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <confuri>sip:APT_CONF@volte.aptg.com.tw</confuri>
+    <numeric>46605</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <confuri>sip:conf-factory@ims.taiwanmobile.com</confuri>
+    <numeric>46697</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <enable>true</enable>
+    <numeric>002101</numeric>
+  </allowPlmn>
+
+  <allowPlmn>
+    <confuri>sip:conference-factory@yes.my</confuri>
+    <numeric>502152</numeric>
+  </allowPlmn>
+</SprdXml>
+

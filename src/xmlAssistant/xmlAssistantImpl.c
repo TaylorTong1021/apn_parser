@@ -28,6 +28,7 @@ xmlNodePtr mCurNode;
 static int xml_parser_per_tag(xmlNodePtr node);
 static int xml_parser_per_attribute(xmlNodePtr node);
 static void clear_xml_data(xml_data_node* xml_data);
+static xml_data_node* create_and_set_data_to_node(char* key, char* value);
 
 /**
  * read xml file and get node ptr from xml.
@@ -89,7 +90,11 @@ int xml_parse(int (*callfunc)(xml_data_node*), unsigned int parse_type, unsigned
         }
         if(RETURN_ERROR != result) {
             p_tmp_xml_data = p_xml_data_header->next;
-            result = callfunc(p_xml_data_header->next);
+            if(NULL == p_tmp_xml_data) {
+                curNode = curNode->next;
+                continue;
+            }
+            result = callfunc(p_tmp_xml_data);
             if(result == RETURN_OK) {
                 if(GET_MULTI_NODE == node_type) {
                     curNode = curNode->next;
@@ -191,7 +196,7 @@ static int xml_parser_per_attribute(xmlNodePtr node)
             attribute = attribute->next;
             continue;
         }
-        //LOG("xml_parser_per_attribute name = %s, value=%s.",attribute->name, value);
+        LOG("xml_parser_per_attribute name = %s, value=%s.",attribute->name, value);
         //save xml data to linknode.
         p_xml_data_node = create_and_set_data_to_node((char *)attribute->name, (char*)value);
 

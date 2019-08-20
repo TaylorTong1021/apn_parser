@@ -109,9 +109,13 @@ static void delete_apn_data_list() {
 }
 
 static int parser_and_add_xml_node_to_list(xml_data_node* xml_data) {
-    int result = RETURN_ERROR;
+    int result = RETURN_OK;
+    xml_data_node* xml_data_ptr = xml_data;
     //TODO
-    LOG("parser_and_add_xml_node_to_list...");
+    while(xml_data_ptr != NULL) {
+        LOG("xml_data_ptr key=%s, value=%s",xml_data_ptr->key, xml_data_ptr->value);
+        xml_data_ptr = xml_data_ptr->next;
+    }
     return result;
 }
 
