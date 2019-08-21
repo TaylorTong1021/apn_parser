@@ -33,6 +33,7 @@ apn_data_list* g_apn_data_list_ptr = NULL;
 
 static void delete_apn_data_list();
 static int parser_and_add_xml_node_to_list(xml_data_node* xml_data);
+static char* build_up_to_numberic(char* mcc, char* mnc);
 
 int parseApnConfigXml(char* file_name, char* numberic ) {
     LOG("parseApnConfigXml...");
@@ -111,11 +112,27 @@ static void delete_apn_data_list() {
 static int parser_and_add_xml_node_to_list(xml_data_node* xml_data) {
     int result = RETURN_OK;
     xml_data_node* xml_data_ptr = xml_data;
-    //TODO
+    char mcc[MAX_PLMN_LEN], mnc[MAX_PLMN_LEN/2 + 1];
+    static char numberic[MAX_PLMN_LEN];
     while(xml_data_ptr != NULL) {
-        LOG("xml_data_ptr key=%s, value=%s",xml_data_ptr->key, xml_data_ptr->value);
+        //LOG("xml_data_ptr key=%s, value=%s",xml_data_ptr->key, xml_data_ptr->value);
+        if(strcmp(xml_data_ptr->key, "mcc") == 0) {
+            strcpy(mcc, xml_data_ptr->value);
+        }
+        if(strcmp(xml_data_ptr->key, "mnc") == 0) {
+            strcpy(mnc, xml_data_ptr->value);
+#ifdef _CONSEQUENT_NODE
+
+#endif
+            strcpy(numberic, build_up_to_numberic(mcc, mnc));
+            LOG("numberic =%s.",numberic);
+        }
         xml_data_ptr = xml_data_ptr->next;
     }
     return result;
+}
+
+static char* build_up_to_numberic(char* mcc, char* mnc) {
+    return strcat(mcc, mnc);
 }
 

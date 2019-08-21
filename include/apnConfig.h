@@ -1,7 +1,7 @@
 #ifndef _APN_CONFIG_H_
 #define _APN_CONFIG_H_
 
-#define MAX_PLMN_LEN 6
+#define MAX_PLMN_LEN 7
 
 typedef struct apn_data_node {
     char* key;

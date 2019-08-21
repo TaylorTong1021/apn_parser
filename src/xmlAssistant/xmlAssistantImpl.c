@@ -29,6 +29,7 @@ static int xml_parser_per_tag(xmlNodePtr node);
 static int xml_parser_per_attribute(xmlNodePtr node);
 static void clear_xml_data(xml_data_node* xml_data);
 static xml_data_node* create_and_set_data_to_node(char* key, char* value);
+static void add_node_to_list(xml_data_node* p_xml_data_node);
 
 /**
  * read xml file and get node ptr from xml.
@@ -137,7 +138,7 @@ static xml_data_node* create_and_set_data_to_node(char* key, char* value) {
     return p_xml_data_node;
 }
 
-static void* add_node_to_list(xml_data_node* p_xml_data_node) {
+static void add_node_to_list(xml_data_node* p_xml_data_node) {
     xml_data_node *p_tmp_xml_data_node = p_xml_data_header;
 
     while(p_tmp_xml_data_node->next != NULL) {
@@ -196,7 +197,7 @@ static int xml_parser_per_attribute(xmlNodePtr node)
             attribute = attribute->next;
             continue;
         }
-        LOG("xml_parser_per_attribute name = %s, value=%s.",attribute->name, value);
+        //LOG("xml_parser_per_attribute name = %s, value=%s.",attribute->name, value);
         //save xml data to linknode.
         p_xml_data_node = create_and_set_data_to_node((char *)attribute->name, (char*)value);
 
@@ -226,7 +227,11 @@ static void clear_xml_data(xml_data_node* xml_data) {
         free(tmp_xml_data->key);
         free(tmp_xml_data->value);
         tmp_xml_data = tmp_xml_data->next;
-        free(xml_data);
+    }
+    while(xml_data != NULL) {
+        tmp_xml_data = xml_data;
+        xml_data = xml_data->next;
+        free(tmp_xml_data);
     }
 }
 
