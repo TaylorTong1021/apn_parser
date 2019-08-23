@@ -15,7 +15,6 @@
 
 #include "xmlAssistant/xmlAssistantImpl.h"
 #include "log.h"
-#include "memory.h"
 
 #include <libxml/encoding.h>
 #include <libxml/xmlwriter.h>
@@ -28,8 +27,6 @@ xmlNodePtr mCurNode;
 static int xml_parser_per_tag(xmlNodePtr node);
 static int xml_parser_per_attribute(xmlNodePtr node);
 static void clear_xml_data(xml_data_node* xml_data);
-static xml_data_node* create_and_set_data_to_node(char* key, char* value);
-static void add_node_to_list(xml_data_node* p_xml_data_node);
 
 /**
  * read xml file and get node ptr from xml.
@@ -89,22 +86,24 @@ int xml_parse(int (*callfunc)(xml_data_node*), unsigned int parse_type, unsigned
             LOG("parser type is illegue!");
             return RETURN_ERROR;
         }
-        if(RETURN_ERROR != result) {
+        if(RETURN_OK == result) {
             p_tmp_xml_data = p_xml_data_header->next;
             if(NULL == p_tmp_xml_data) {
                 curNode = curNode->next;
                 continue;
             }
             result = callfunc(p_tmp_xml_data);
-            if(result == RETURN_OK) {
+            if(result == RETURN_MATCHED) {
                 if(GET_MULTI_NODE == node_type) {
                     curNode = curNode->next;
-                    clear_xml_data(p_tmp_xml_data);
                     continue;
                 }
                 p_xml_data_header->next = NULL;
                 break;
-            } else {
+            } else if(RETURN_FINISHED == result) {
+                clear_xml_data(p_tmp_xml_data);
+                break;
+            }else if(RETURN_NOT_MATCH == result){
                 clear_xml_data(p_tmp_xml_data);
             }
         }
@@ -125,27 +124,6 @@ void xml_close()
     xmlFreeDoc(mDoc);
     mDoc = NULL;
     mCurNode = NULL;
-}
-
-static xml_data_node* create_and_set_data_to_node(char* key, char* value) {
-    xml_data_node * p_xml_data_node = (xml_data_node *)_alloc_memory(sizeof(xml_data_node));
-    //key
-    p_xml_data_node->key = (char *)_alloc_memory(sizeof(char) * (strlen((char *)key) + 1));
-    strcpy(p_xml_data_node->key, key);
-    //value
-    p_xml_data_node->value = (char *)_alloc_memory(sizeof(char) * (strlen((char*)value) + 1));
-    strcpy(p_xml_data_node->value, value);
-    return p_xml_data_node;
-}
-
-static void add_node_to_list(xml_data_node* p_xml_data_node) {
-    xml_data_node *p_tmp_xml_data_node = p_xml_data_header;
-
-    while(p_tmp_xml_data_node->next != NULL) {
-        p_tmp_xml_data_node = p_tmp_xml_data_node->next;
-    }
-    p_tmp_xml_data_node->next = p_xml_data_node;
-    p_xml_data_node->next = NULL;
 }
 
 /**
@@ -171,7 +149,7 @@ static int xml_parser_per_tag(xmlNodePtr node)
             p_xml_data_node = create_and_set_data_to_node((char *)curNode->name, (char*)value);
             
             //add node to list
-            add_node_to_list(p_xml_data_node);
+            add_node_to_list(p_xml_data_header, p_xml_data_node);
 			if( value ){
 				xmlFree( value );
 			}
@@ -202,7 +180,7 @@ static int xml_parser_per_attribute(xmlNodePtr node)
         p_xml_data_node = create_and_set_data_to_node((char *)attribute->name, (char*)value);
 
         //add node to list
-        add_node_to_list(p_xml_data_node);
+        add_node_to_list(p_xml_data_header, p_xml_data_node);
 
         if( value ) {
             xmlFree(value);

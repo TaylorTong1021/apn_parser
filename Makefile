@@ -1,6 +1,6 @@
-os_platform = 
+os_platform =
 
-CFLAGS = -L/usr/local/lib -fPIC -g -D _CONSEQUENT_NODE
+CFLAGS = -D __CONSEQUENT_NODE -L/usr/local/lib -fPIC -g -Wall 
 ifeq ($(os_platform),macos)
 INCLUDE_DIRS = -I /usr/local/opt/libxml2/include/libxml2/  -I ./include -I ./utils/memory/include -I ./utils/log
 else
@@ -17,14 +17,14 @@ endif
 OBJS =  apnConfig.o \
         xmlAssistantAdpter.o \
         xmlAssistantImpl.o \
-	memory.o \
-	main.o
+	    memory.o \
+	    main.o
 
 SRCS =  src/apnConfig/apnConfig.c \
         src/xmlAssistant/xmlAssistantAdpter.c \
         src/xmlAssistant/xmlAssistantImpl.c \
-	utils/memory/src/memory.c \
-	main.c
+	    utils/memory/src/memory.c \
+	    main.c
 
 all:$(OBJS)
 	$(CC) $(CFLAGS) $(LIBS) -o $(TARGET) $(OBJS)

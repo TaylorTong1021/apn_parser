@@ -41,12 +41,20 @@ int parseApnConfigXml(char* file_name, char* numberic ) {
 
     if(NULL == g_apn_data_list_ptr) {
         g_apn_data_list_ptr = (apn_data_list*)_alloc_memory(sizeof(apn_data_list));
+
+        g_apn_data_list_ptr->xml_data = (apn_data_type *)_alloc_memory(sizeof(apn_data_type));
+
+        g_apn_data_list_ptr->xml_data->next = NULL;
     } else {
         if((g_apn_data_list_ptr != NULL) && (strcmp(g_apn_data_list_ptr->numberic, numberic) ==0)) {
             return RETURN_OK;
         } else {
             delete_apn_data_list();
             g_apn_data_list_ptr = (apn_data_list*)_alloc_memory(sizeof(apn_data_list));
+
+            g_apn_data_list_ptr->xml_data = (apn_data_type *)_alloc_memory(sizeof(apn_data_type));
+
+            g_apn_data_list_ptr->xml_data->next = NULL;
         }
     }
 
@@ -91,9 +99,7 @@ char* getApnConfigUri(char* key, char* numberic, char* apn_type)
 }
 
 apn_data_list* getApnConfigList(char* numberic) {
-    apn_data_list* p_apn_data_list;
-    memcpy(p_apn_data_list, g_apn_data_list_ptr, sizeof(apn_data_list));
-    return p_apn_data_list;
+    return g_apn_data_list_ptr;
 }
 
 static void delete_apn_data_list() {
@@ -110,7 +116,7 @@ static void delete_apn_data_list() {
 }
 
 static int parser_and_add_xml_node_to_list(xml_data_node* xml_data) {
-    int result = RETURN_OK;
+    int result = RETURN_NOT_MATCH;
     xml_data_node* xml_data_ptr = xml_data;
     char mcc[MAX_PLMN_LEN], mnc[MAX_PLMN_LEN/2 + 1];
     static char numberic[MAX_PLMN_LEN];
@@ -121,13 +127,24 @@ static int parser_and_add_xml_node_to_list(xml_data_node* xml_data) {
         }
         if(strcmp(xml_data_ptr->key, "mnc") == 0) {
             strcpy(mnc, xml_data_ptr->value);
-#ifdef _CONSEQUENT_NODE
-
-#endif
+#ifdef __CONSEQUENT_NODE
+            //prev node is matched, and current is not.
+            if(strcmp(build_up_to_numberic(mcc, mnc), g_apn_data_list_ptr->numberic) != 0
+                && strcmp(numberic, g_apn_data_list_ptr->numberic) == 0) {
+                result = RETURN_FINISHED;
+            }
+            strcpy(numberic, mcc);
+#else
             strcpy(numberic, build_up_to_numberic(mcc, mnc));
-            LOG("numberic =%s.",numberic);
+#endif
         }
         xml_data_ptr = xml_data_ptr->next;
+    }
+    if(strcmp(numberic, g_apn_data_list_ptr->numberic) == 0) {
+        result = RETURN_MATCHED;
+        LOG("numberic =%s.",numberic);
+        //add node to g_apn_data_list_ptr
+        //add_node_to_list(g_apn_data_list_ptr->xml_data, xml_data);
     }
     return result;
 }

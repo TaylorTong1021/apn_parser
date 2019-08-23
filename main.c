@@ -18,7 +18,7 @@ int main(int argc, char** argv)
     char* numberic;
 
     //apn info
-    char* apn, *protocol, *authType, *username, *password;
+    //char* apn, *protocol, *authType, *username, *password;
 
     //apn list
     apn_data_list* p_apn_data_list = NULL;
@@ -34,11 +34,11 @@ int main(int argc, char** argv)
         return result;
     }
 
-    /*apn = getApnConfigUri("apn", numberic);
-    protocol = getApnConfigUri("protocol", numberic);
-    authType = getApnConfigUri("authType", numberic);
-    username = getApnConfigUri("username", numberic);
-    password = getApnConfigUri("password", numberic);
+    /*apn = getApnConfigUri("apn", numberic, "ims");
+    protocol = getApnConfigUri("protocol", numberic, "ims");
+    authType = getApnConfigUri("authType", numberic, "ims");
+    username = getApnConfigUri("username", numberic, "ims");
+    password = getApnConfigUri("password", numberic, "ims");
 
     LOG("apn: %s", apn);
     LOG("protocol: %s", protocol);
@@ -47,7 +47,7 @@ int main(int argc, char** argv)
     LOG("password: %s", password);
 
     //apn get list
-    numberic = "46001";
+    numberic = "46002";
     result = parseApnConfigXml(APN_CONFIG_FILE_NAME, numberic);
     if(RETURN_OK != result)
     {

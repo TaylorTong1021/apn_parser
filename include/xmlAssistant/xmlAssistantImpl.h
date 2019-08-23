@@ -1,10 +1,14 @@
 
 #ifndef _XML_ASSISTANT_IMPL_H_
 #define _XML_ASSISTANT_IMPL_H_
+#include "memory.h"
 
 enum{
 	RETURN_ERROR = -1,
-	RETURN_OK = 0
+	RETURN_OK = 0,
+    RETURN_FINISHED,
+    RETURN_MATCHED,
+    RETURN_NOT_MATCH
 };
 
 enum{
@@ -16,12 +20,6 @@ enum {
     GET_ONE_NODE = 1,
     GET_MULTI_NODE
 };
-
-typedef struct xml_data_node {
-    char* key;
-    char* value; 
-    struct xml_data_node* next;
-} xml_data_node;
 
 typedef struct xml_data_list {
     xml_data_node* xml_data;
