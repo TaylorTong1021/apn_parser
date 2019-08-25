@@ -149,7 +149,7 @@ static int xml_parser_per_tag(xmlNodePtr node)
             p_xml_data_node = create_and_set_data_to_node((char *)curNode->name, (char*)value);
             
             //add node to list
-            add_node_to_list(p_xml_data_header, p_xml_data_node);
+            add_node_to_tail(p_xml_data_header, p_xml_data_node);
 			if( value ){
 				xmlFree( value );
 			}
@@ -180,7 +180,7 @@ static int xml_parser_per_attribute(xmlNodePtr node)
         p_xml_data_node = create_and_set_data_to_node((char *)attribute->name, (char*)value);
 
         //add node to list
-        add_node_to_list(p_xml_data_header, p_xml_data_node);
+        add_node_to_tail(p_xml_data_header, p_xml_data_node);
 
         if( value ) {
             xmlFree(value);

@@ -18,12 +18,12 @@ int main(int argc, char** argv)
     char* numberic;
 
     //apn info
-    //char* apn, *protocol, *authType, *username, *password;
+    char* apn, *protocol, *authType, *username, *password;
 
     //apn list
-    apn_data_list* p_apn_data_list = NULL;
-    apn_data_list* p_tmp_apn_data_list = NULL;
-    apn_data_type* p_tmp_data = NULL;
+    xml_data_list* p_apn_data_list = NULL;
+    xml_data_list* p_tmp_apn_data_list = NULL;
+    xml_data_node* p_tmp_data = NULL;
 
     //apn get every elements
     numberic = "46002";
@@ -34,7 +34,7 @@ int main(int argc, char** argv)
         return result;
     }
 
-    /*apn = getApnConfigUri("apn", numberic, "ims");
+    apn = getApnConfigUri("apn", numberic, "ims");
     protocol = getApnConfigUri("protocol", numberic, "ims");
     authType = getApnConfigUri("authType", numberic, "ims");
     username = getApnConfigUri("username", numberic, "ims");
@@ -67,9 +67,6 @@ int main(int argc, char** argv)
         }
         p_tmp_apn_data_list = p_tmp_apn_data_list->next;
     }
-    if(NULL != p_apn_data_list) {
-        free(p_apn_data_list);
-    }*/
     
     return 0;
 }

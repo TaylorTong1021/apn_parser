@@ -21,11 +21,6 @@ enum {
     GET_MULTI_NODE
 };
 
-typedef struct xml_data_list {
-    xml_data_node* xml_data;
-    struct xml_data_list* next;
-}xml_data_list;
-
 int xml_open(char* fileName);
 int xml_parse(int (*callfunc)(xml_data_node*), unsigned int parse_type, unsigned int node_type/*return one or more node*/);
 void xml_close();

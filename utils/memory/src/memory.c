@@ -28,12 +28,33 @@ xml_data_node* create_and_set_data_to_node(char* key, char* value) {
     return p_xml_data_node;
 }
 
-void add_node_to_list(xml_data_node* p_xml_data_header, xml_data_node* p_xml_data_node) {
-    xml_data_node *p_tmp_xml_data_node = p_xml_data_header;
+void add_node_to_list(xml_data_list* p_xml_data_list, xml_data_node* p_xml_data_node) {
+    xml_data_list *p_tmp_xml_data_list = p_xml_data_list;
+    xml_data_list *p_new_xml_data_list_node = NULL;
 
-    while(p_tmp_xml_data_node->next != NULL) {
-        p_tmp_xml_data_node = p_tmp_xml_data_node->next;
+    while(p_tmp_xml_data_list->next != NULL) {
+        p_tmp_xml_data_list = p_tmp_xml_data_list->next;
     }
-    p_tmp_xml_data_node->next = p_xml_data_node;
+
+    if(p_tmp_xml_data_list->xml_data != NULL) {
+        p_new_xml_data_list_node = (xml_data_list *)_alloc_memory(sizeof(xml_data_list));
+        p_new_xml_data_list_node->xml_data = p_xml_data_node;
+        p_new_xml_data_list_node->next = NULL;
+
+        p_tmp_xml_data_list->next = p_new_xml_data_list_node;
+    }else {
+        p_tmp_xml_data_list->xml_data = p_xml_data_node;
+        p_tmp_xml_data_list ->next = NULL;
+    }
+    
+}
+
+void add_node_to_tail(xml_data_node* p_xml_data_list, xml_data_node* p_xml_data_node) {
+    xml_data_node *p_tmp_xml_data_list = p_xml_data_list;
+
+    while(p_tmp_xml_data_list->next != NULL) {
+        p_tmp_xml_data_list = p_tmp_xml_data_list->next;
+    }
+    p_tmp_xml_data_list->next = p_xml_data_node;
     p_xml_data_node->next = NULL;
 }

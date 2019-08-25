@@ -4,19 +4,14 @@
 #define MAX_PLMN_LEN 7
 #define __CONSEQUENT_NODE
 
-typedef struct apn_data_node {
-    char* key;
-    char* value; 
-    struct apn_data_type* next;
-} apn_data_type;
+#include "memory.h"
 
 typedef struct apn_data_list {
     char* numberic;
-    apn_data_type *xml_data; 
-    struct apn_data_list* next;
+    xml_data_list *xml_data_list_ptr; 
 } apn_data_list;
 
 int parseApnConfigXml(char* file_name, char* numberic );
 char* getApnConfigUri(char* key, char* numberic, char* apn_type);
-apn_data_list* getApnConfigList(char* numberic);
+xml_data_list* getApnConfigList(char* numberic);
 #endif
