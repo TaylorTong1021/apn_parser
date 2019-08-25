@@ -15,12 +15,14 @@ CC = gcc
 endif
 
 OBJS =  apnConfig.o \
+        volteConfig.o \
         xmlAssistantAdpter.o \
         xmlAssistantImpl.o \
 	    memory.o \
 	    main.o
 
 SRCS =  src/apnConfig/apnConfig.c \
+        src/volteConfig/volteConfig.c \
         src/xmlAssistant/xmlAssistantAdpter.c \
         src/xmlAssistant/xmlAssistantImpl.c \
 	    utils/memory/src/memory.c \

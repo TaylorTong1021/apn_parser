@@ -21,7 +21,6 @@
  */
 
 #include "apnConfig.h"
-#include "memory.h"
 #include "log.h"
 #include "xmlAssistant/xmlAssistantAdapter.h"
 
