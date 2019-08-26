@@ -58,3 +58,25 @@ void add_node_to_tail(xml_data_node* p_xml_data_list, xml_data_node* p_xml_data_
     p_tmp_xml_data_list->next = p_xml_data_node;
     p_xml_data_node->next = NULL;
 }
+
+void delete_xml_data_list(xml_data_list* p_xml_data_list) {
+    xml_data_list* p_tmp_xml_data_list = p_xml_data_list;
+    xml_data_node* p_tmp_xml_data_node = NULL;
+    while(p_tmp_xml_data_list != NULL) {
+        while(p_tmp_xml_data_list->xml_data != NULL) {
+            p_tmp_xml_data_node = p_tmp_xml_data_list->xml_data;
+            free(p_tmp_xml_data_node->key);
+            free(p_tmp_xml_data_node->value);
+            p_tmp_xml_data_list->xml_data = p_tmp_xml_data_list->xml_data->next;
+            free(p_tmp_xml_data_node);
+        }
+        p_tmp_xml_data_list = p_tmp_xml_data_list->next;
+    }
+    p_tmp_xml_data_list = p_xml_data_list;
+    while(p_xml_data_list != NULL) {
+        p_tmp_xml_data_list = p_xml_data_list;
+        p_xml_data_list = p_xml_data_list->next;
+        free(p_tmp_xml_data_list);
+    }
+}
+

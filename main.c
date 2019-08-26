@@ -72,7 +72,7 @@ int main(int argc, char** argv)
     LOG("password: %s", password);
 
     /* --- apn get list --- */
-    numberic = "46002";
+    numberic = "46000";
     result = parseApnConfigXml(APN_CONFIG_FILE_NAME, numberic);
     if(RETURN_OK != result)
     {

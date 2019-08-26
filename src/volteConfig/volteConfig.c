@@ -96,18 +96,10 @@ xml_data_list* getVolteConfigList(char* numberic) {
 }
 
 static void delete_volte_data_list() {
-    xml_data_list* p_tmp_xml_data_list = g_volte_data_list_ptr->xml_data_list_ptr;
     free(g_volte_data_list_ptr->numberic);
-    while(p_tmp_xml_data_list != NULL) {
-        while(p_tmp_xml_data_list->xml_data != NULL) {
-            free(p_tmp_xml_data_list->xml_data->key);
-            free(p_tmp_xml_data_list->xml_data->value);
-            p_tmp_xml_data_list->xml_data = p_tmp_xml_data_list->xml_data->next;
-        }
-        p_tmp_xml_data_list = p_tmp_xml_data_list->next;
-    }
-
+    delete_xml_data_list(g_volte_data_list_ptr->xml_data_list_ptr);
     free(g_volte_data_list_ptr);
+    g_volte_data_list_ptr = NULL;
 }
 
 static int parser_and_add_xml_node_to_list(xml_data_node* xml_data) {
