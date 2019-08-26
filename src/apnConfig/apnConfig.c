@@ -43,7 +43,7 @@ int parseApnConfigXml(char* file_name, char* numberic ) {
 
         g_apn_data_list_ptr->xml_data_list_ptr = (xml_data_list *)_alloc_memory(sizeof(xml_data_list));
 
-        g_apn_data_list_ptr->xml_data_list_ptr->next = NULL;
+        memset(g_apn_data_list_ptr->xml_data_list_ptr, '\0', sizeof(xml_data_list));
     } else {
         if((g_apn_data_list_ptr != NULL) && (strcmp(g_apn_data_list_ptr->numberic, numberic) ==0)) {
             return RETURN_OK;
@@ -53,7 +53,7 @@ int parseApnConfigXml(char* file_name, char* numberic ) {
 
             g_apn_data_list_ptr->xml_data_list_ptr = (xml_data_list *)_alloc_memory(sizeof(xml_data_list));
 
-            g_apn_data_list_ptr->xml_data_list_ptr->next = NULL;
+            memset(g_apn_data_list_ptr->xml_data_list_ptr, '\0', sizeof(xml_data_list));
         }
     }
 

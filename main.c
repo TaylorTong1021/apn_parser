@@ -30,7 +30,7 @@ int main(int argc, char** argv)
     xml_data_node* p_tmp_data = NULL;
 
     /* --- get every elements of volte info --- */
-    numberic = "46001";
+    numberic = "46002";
     result = parseVolteConfigXml(VOLTE_CONFIG_FILE_NAME, numberic);
     if(RETURN_OK != result)
     {

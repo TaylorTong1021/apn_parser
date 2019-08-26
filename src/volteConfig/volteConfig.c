@@ -42,7 +42,7 @@ int parseVolteConfigXml(char* file_name, char* numberic ) {
 
         g_volte_data_list_ptr->xml_data_list_ptr = (xml_data_list *)_alloc_memory(sizeof(xml_data_list));
 
-        g_volte_data_list_ptr->xml_data_list_ptr->next = NULL;
+        memset(g_volte_data_list_ptr->xml_data_list_ptr, '\0', sizeof(xml_data_list));
     } else {
         if((g_volte_data_list_ptr != NULL) && (strcmp(g_volte_data_list_ptr->numberic, numberic) ==0)) {
             return RETURN_OK;
@@ -52,7 +52,7 @@ int parseVolteConfigXml(char* file_name, char* numberic ) {
 
             g_volte_data_list_ptr->xml_data_list_ptr = (xml_data_list *)_alloc_memory(sizeof(xml_data_list));
 
-            g_volte_data_list_ptr->xml_data_list_ptr->next = NULL;
+            memset(g_volte_data_list_ptr->xml_data_list_ptr, '\0', sizeof(xml_data_list));
         }
     }
 
@@ -122,7 +122,7 @@ static int parser_and_add_xml_node_to_list(xml_data_node* xml_data) {
         xml_data_ptr = xml_data_ptr->next;
     }
     if(strcmp(numberic, g_volte_data_list_ptr->numberic) == 0) {
-        result = RETURN_FINISHED;
+        result = RETURN_MATCHED;
         //add node to g_volte_data_list_ptr
         add_node_to_list(g_volte_data_list_ptr->xml_data_list_ptr, xml_data);
     }
