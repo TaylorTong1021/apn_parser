@@ -28,10 +28,20 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+xml_volte_config_type g_xml_volte_config[MAX_ELEMENTS] = {
+    {"domain", "ims.mnc", ".3gppnetwork.org", MAX_DOMAIN_LEN},
+    {"xcap", "xcap.ims.mnc", ".pub.3gppnetwork.org", MAX_XCAP_LEN},
+    {"bsf", "bsf.mnc", ".pub.3gppnetwork.org", MAX_BSF_LEN},
+    {"configuri", "sip:mmtel@conf-factory.ims.mnc", ".3gppnetwork.org", MAX_CONFIGURI_LEN}
+};
+
 volte_data_list* g_volte_data_list_ptr = NULL;
 
 static void delete_volte_data_list();
 static int parser_and_add_xml_node_to_list(xml_data_node* xml_data);
+static char* buildDefaultUriStr(char* mcc, char* mnc, char* head, char* tail, unsigned int max_len);
+static char* getDefaultStr(char* key, char* mcc, char* mnc);
+static void separate_mcc_mnc_from_numberic(char* mcc, char* mnc, char* numberic);
 
 int parseVolteConfigXml(char* file_name, char* numberic ) {
     LOG("parseVolteConfigXml...");
@@ -70,6 +80,9 @@ char* getVolteConfigUri(char* key, char* numberic)
     xml_data_list* p_xml_data_list = g_volte_data_list_ptr->xml_data_list_ptr;
     xml_data_node* tmp_volte_data_node_ptr = NULL;
 
+    char mcc[5];
+    char mnc[5];
+
     if(strcmp(g_volte_data_list_ptr->numberic, numberic) != 0) {
         return "";
     }
@@ -85,14 +98,9 @@ char* getVolteConfigUri(char* key, char* numberic)
         p_xml_data_list = p_xml_data_list->next;
     }
 
-    return "";
-}
+    separate_mcc_mnc_from_numberic(&mcc[0], &mnc[0], numberic);
 
-xml_data_list* getVolteConfigList(char* numberic) {
-    if(strcmp(g_volte_data_list_ptr->numberic, numberic) == 0) {
-        return g_volte_data_list_ptr->xml_data_list_ptr;
-    }
-    return NULL;
+    return getDefaultStr(key, mcc, mnc);
 }
 
 static void delete_volte_data_list() {
@@ -119,5 +127,59 @@ static int parser_and_add_xml_node_to_list(xml_data_node* xml_data) {
         add_node_to_list(g_volte_data_list_ptr->xml_data_list_ptr, xml_data);
     }
     return result;
+}
+
+static char* buildDefaultUriStr(char* mcc, char* mnc, char* head, char* tail, unsigned int max_len) {
+    unsigned int index = 0;
+    char *tmp_str = NULL;
+    tmp_str = (char *)_alloc_memory(sizeof(char) * max_len);
+
+    memset(tmp_str, '\0', sizeof(char) * max_len);
+
+    strcpy(tmp_str, head);
+    index += strlen(head);
+    strcpy(tmp_str+index, mnc);
+    index += strlen(mnc);
+    strcpy(tmp_str + index, ".mcc");
+    index += strlen(".mcc");
+    strcpy(tmp_str + index, mcc);
+    index += strlen(mcc);
+    strcpy(tmp_str + index, tail);
+
+    return tmp_str;
+}
+
+static char* getDefaultStr(char* key, char* mcc, char* mnc) {
+    //default volte config info
+    char* tmp_str = NULL;
+    int index = 0;
+    
+    for(index  = 0; index < MAX_ELEMENTS; index++) {
+        if( (g_xml_volte_config[index].field != NULL)
+            && (strcmp(key, g_xml_volte_config[index].field) == 0) ) {
+            tmp_str = buildDefaultUriStr(mcc, mnc, g_xml_volte_config[index].head,
+                            g_xml_volte_config[index].tail, g_xml_volte_config[index].max_len);
+            break;
+        }
+    }
+
+    return tmp_str;
+}
+
+static void separate_mcc_mnc_from_numberic(char* mcc, char* mnc, char* numberic) {
+    //init & build default uri.
+    memset(mcc, '\0', sizeof(mcc));
+    memset(mnc, '\0', sizeof(mnc));
+
+    //get mcc
+    strncpy(mcc, numberic, 3);
+
+    //get mnc
+    if(strlen(numberic) == 5) {
+        mnc[0] = '0';
+        strncpy(&mnc[1], &numberic[3], 2);
+    } else if(strlen(numberic) == 6) {
+        strncpy(mnc, &numberic[3], 3);
+    }
 }
 

@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <apnConfig.h>
+#include <volteConfig.h>
 
 #define APN_CONFIG_FILE_NAME   "./res/apns-conf_8.xml"
 #define VOLTE_CONFIG_FILE_NAME "./res/volte-conf.xml"
